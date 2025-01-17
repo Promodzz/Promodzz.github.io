@@ -3,698 +3,75 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MechTools</title>
+    <title>Google Sheets API Integration</title>
+    <script src="https://apis.google.com/js/api.js"></script>
     <style>
-    
- body {
-    font-family: Monospace, sans-serif;
-    line-height: 1.5;
-    background: radial-gradient(circle, #c23ca9, #2cc7cb);
-    color: #333;
-    margin: 0;
-    padding: 0;
-}
-        header {
-            background: #c23ca9;
-            color: #fff;
-            padding: 10px 0;
-            text-align: center;
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
         }
-        nav {
-            background: #2cc7cb;
-            display: flex;
-            justify-content: center;
-            margin-top: 10px;
+        input, button {
+            margin: 5px;
         }
-        nav a {
-            color: #fff;
-            padding: 10px 20px;
-            text-decoration: none;
-            text-align: center;
-            border: 1px solid #444;
-            border-top-left-radius: 5px;
-            border-top-right-radius: 5px;
-            cursor: pointer;
-        }
-        nav a.active {
-            background-color: #a80d8b;
-            border-color: #333;
-        }
-        .container {
-            padding: 10px;
-            max-width: 800px;
-            margin: auto;
-        }
-        .category {
-            margin-bottom: 5px;
-            background: #fff;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            padding: 10px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-            cursor: pointer;
-        }
-        .category h2 {
-            margin-top: 0;
-        }
-        .category ul {
-            list-style-type: disc;
-            padding-left: 20px;
-            display: none; /* Initially hidden */
-        }
-        #search {
-            margin-bottom: 20px;
-            padding: 10px;
-            width: 95%;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-        }
-        
-        
     </style>
 </head>
 <body>
-    <header>
-        <h1></h1>
-    </header>
-    <nav>
-        <a href="#" class="active" onclick="switchTab(event, 'tab1')">Engine Swaps</a>
-        <a href="#" onclick="switchTab(event, 'tab2')">Logs</a>
-    </nav>
-    <div class="container content" id="tab1">
-        <input type="text" id="search" placeholder="Search by vehicle make..." oninput="searchVehicles()">
-        <div class="category" id="I4TurboCategory">
-            <h2 onclick="toggleCategory(this)">I4 Turbo 2.5L Engine (C) </h2>
-            <ul>
-                <li>Club</li>
-                <li>Blista Go Go Monkey</li>
-                <li>Golpher 8</li>
-                <li>Super Diamond</li>
-                <li>Tailgater S</li>
-                <li>Lampadati</li>
-                <li>Astron</li>
-                <li>Jubilee</li>
-                <li>Percedes Tourer 93</li>
-                <li>Leicester S</li>
-                <li>Baller LE LWB</li>
-                <li>Novak</li>
-                <li>Rebla GTS</li>
-                <li>Magnum</li>
-                <li>Percedes LG36</li>
-                <li>V'ulva 90</li>
-                <li>Futo</li>
-                <li>Dominator</li>
-                <li>Dukes</li>
-                <li>Gauntlet</li>
-                <li>Ruiner</li>
-                <li>Slam Van Custom</li>
-                <li>Yosemite</li>
-                <li>Stirling GT</li>
-                <li>GT500</li>
-                <li>Infernus Classic</li>
-                <li>JB 700</li>
-                <li>190Z</li>
-                <li>Coquette Classic</li>
-                <li>Jester Classic</li>
-                <li>Penumbra FF</li>
-                <li>Sultan Classic Custom</li>
-                <li>Akuma</li>
-                <li>Cliffhanger</li>
-                <li>Dubsta 6x6</li>
-                <li>Draugur</li>
-                <li>Magnum 6x6</li>
-            </ul>
-        </div>
-        <div class="category" id="V6Category">
-            <h2 onclick="toggleCategory(this)">V6 3.3L Engine (B) </h2>
-            <ul>
-                <li>Issi Sport</li>
-                <li>Deity</li>
-                <li>Dominated</li>
-                <li>EX 66</li>
-                <li>EV1L Is</li>
-                <li>FR36</li>
-                <li>Emile Bean 2.0</li>
-                <li>Citizen</li>
-                <li>Sentinel GTS</li>
-                <li>Dominator ASP</li>
-                <li>Buffalo STX</li>
-                <li>Deevo</li>
-                <li>Dukes Eagle</li>
-                <li>Comet Retro Custom</li>
-                <li>8f Drafter</li>
-                <li>Feltzer</li>
-                <li>Flash GT</li>
-                <li>GB 200</li>
-                <li>Jester</li>
-                <li>Kuruma</li>
-                <li>9F</li>
-                <li>Omnis</li>
-                <li>Tropos Rallye</li>
-                <li>Calico GTF</li>
-                <li>Euros</li>
-                <li>Cypher</li>
-                <li>Sultan RS</li>
-                <li>Sentinel Classic Widebody</li>
-                <li>Issi Rally</li>
-                <li>300R</li>
-                <li>Bati 801</li>
-                <li>Carbon RS</li>
-                <li>Manchez Scout</li>
-                <li>Bati 901</li>
-                <li>Brawler</li>
-                <li>Percedes Brassiere</li>
-                <li>Trophy Truck</li>
-                <li>Desert Raid</li>
-                <li>Niobe 21</li>
-                <li>Pariah</li>
-                <li>Solace</li>
-                <li>Deevo WideBooty 2</li>
-            </ul>
-        </div>
-        <div class="category" id="V8Category">
-            <h2 onclick="toggleCategory(this)">V8 6.5L Engine (A) </h2>
-            <ul>
-                <li>Vigero ZX</li>
-                <li>Buffalo HellKitten</li>
-                <li>Gauntlet HellMeow</li>
-                <li>Dominator Attack</li>
-                <li>Dominator Snake</li>
-                <li>Dominator GT Shadow</li>
-                <li>Elegy Retro Custom</li>
-                <li>Itali GTO</li>
-                <li>Jugular</li>
-                <li>V-STR</li>
-                <li>Comet GT Race</li>
-                <li>10F Widebody</li>
-                <li>Itali GTB Custom</li>
-                <li>Champion</li>
-                <li>Turismo R</li>
-                <li>zentorno</li>
-                <li>Bati 801RR</li>
-                <li>Hakuchou</li>
-                <li>OB R1</li>
-            </ul>
-        </div>
-        <div class="category" id="V12Category">
-            <h2 onclick="toggleCategory(this)">V12 6.0L Engine (S) </h2>
-            <ul>
-                <li>Taurus Mansaurus</li>
-                <li>Whiskey RT</li>
-                <li>ETR1</li>
-                <li>Tyrus</li>
-                <li>FMJ 17</li>
-                <li>Itali I19</li>
-                <li>Typhoon</li>
-                <li>Dracula Rouge</li>
-                <li>Cobra LB</li>
-                <li>Prospero</li>
-                <li>Itali Neon</li>
-                <li>Nero Neon</li>
-                <li>Hakuchou Drag</li>
-                <li>Bati Gala</li>
-            </ul>
-        </div>
-    </div>
-
-   <div class="container content" id="tab2">
-     <head>
-    <style>
-    
-        .content {
-            display: none; /* Hide all content by default */
-        }
-
-        .active-tab {
-            display: block; /* Display the active tab */
-        }
-        
-    </style>
-    
-</head>
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <style>
-        .tooltip {
-            position: relative;
-            display: inline-block;
-            cursor: pointer;
-        }
-
-        .tooltip:hover::after {
-            content: attr(data-tooltip);
-            position: absolute;
-            bottom: 100%;
-            left: 50%;
-            transform: translateX(-50%);
-            background-color: rgba(0, 0, 0, 0.7);
-            color: #fff;
-            padding: 5px;
-            border-radius: 4px;
-            white-space: nowrap;
-            font-size: 14px;
-            z-index: 1000;
-            opacity: 0;
-            transition: opacity 0.2s;
-        }
-        
-
-        .tooltip:hover::after {
-            opacity: 1;
-        }
-    </style>
-    <title>Tooltip Example</title>
-</head>
-<body>
-       
-        <div class="category" id="I4TurboCategory">
-    <form id="inventoryForm">
-        <label for="customerName">Customer Name:</label>
-        <input type="text" id="customerName" name="customerName" required><br><br>
-        <label for="mechname">Mechanic:</label>
-        <input type="text" id="mechname" name="mechname"><br><br>
-        <label for="plateNumber">Plate Number:</label>
-        <input type="text" id="plateNumber" name="plateNumber" required><br><br>
-        <label for="vehicleModel">Vehicle Model:</label>
-        <input type="text" id="vehicleModel" name="vehicleModel" required><br><br>
-        <label for="shopname">Shop Name:</label>
-        <input type="text" id="shopname" name="shopname" required><br><br>
-        <button id="mechDiscountToggle" class="tooltip" data-tooltip="Must be selected first">Apply [MECH] Discount</button>
-        
-
-      
-
-
-    
-        
-        <button type="button" class="collapsible">Performance</button>
-        <div class="content">
-            <table>
-                <thead>
-                    <tr>
-                        <th>Item</th>
-                        <th>Price</th>
-                    </tr>
-                </thead>
-                <tbody id="performanceItems">
-                    <!-- Performance items will be dynamically added here -->
-                </tbody>
-            </table>
-        </div>
-
-        <button type="button" class="collapsible">Cosmetic</button>
-        <div class="content">
-            <table>
-                <thead>
-                    <tr>
-                        <th>Item</th>
-                        <th>Price</th>
-                    </tr>
-                </thead>
-                <tbody id="cosmeticItems">
-                    <!-- Cosmetic items will be dynamically added here -->
-                </tbody>
-            </table>
-        </div>
-        
-        <button type="button" class="collapsible">Tuning</button>
-        <div class="content">
-            <table>
-                <thead>
-                    <tr>
-                        <th>Item</th>
-                        <th>Price</th>
-                    </tr>
-                </thead>
-                <tbody id="resprayItems">
-                    <!-- Respray items will be dynamically added here -->
-                </tbody>
-            </table>
-        </div>
-        <button type="button" class="collapsible">Servicing</button>
-        <div class="content">
-            <table>
-                <thead>
-                    <tr>
-                        <th>Item</th>
-                        <th>Price</th>
-                    </tr>
-                </thead>
-                <tbody id="lightItems">
-                    <!-- Light Items will be dynamically added here -->
-                </tbody>
-            </table>
-        </div>
-        
-        <!-- Add more categories -->
-
-        <br>
-        <button type="button" onclick="clearCustomerInfo()" class="styled-button">Clear Customer Info</button>
-<button type="button" onclick="clearItems()" class="styled-button">Clear Items</button>
-<button type="button" onclick="undoSelection()" class="styled-button">Undo</button>
-<button type="button" onclick="calculateTotal()" class="styled-button">Print Log</button>
-<button type="button" onclick="sendDiscordLog()" class="styled-button">Send Discord Log</button>
-
-      
-    </form>
-    <br>
-    <div id="summary"></div>
-
-    <footer>Copyright 2024 Jade City Mech Command All rights reserved.</footer>
+    <h1>Log Data to Google Sheets</h1>
+    <input type="text" id="customerName" placeholder="Customer Name" required>
+    <input type="text" id="mechname" placeholder="Mechanic Name">
+    <input type="text" id="plateNumber" placeholder="Plate Number" required>
+    <input type="text" id="vehicleModel" placeholder="Vehicle Model" required>
+    <input type="text" id="shopname" placeholder="Shop Name" required>
+    <button id="submitBtn">Submit</button>
 
     <script>
-    
-     let isMechDiscountApplied = false;
+        const API_KEY = 'AIzaSyAXUyFarNDwnAN13IT-nkfvYAmTjDlKB18'; // Replace with your API key
+        const SPREADSHEET_ID = '19AmCRTkpCYHlMnz4-x0yy5XMJfpygnKmGckK0PWHshk'; // Replace with your Spreadsheet ID
+        const RANGE = 'Sheet1!A:H'; // Adjust the range as needed
 
-        const items = [
-            
-           
-            
-         // add peromance here 
-            
-            { category: 'Performance', name: 'Performance Part', price: 20000 },  
-            { category: 'Performance', name: 'Engine 2', price: 21000 },
-            { category: 'Performance', name: 'Engine 3', price: 22000 },
-            { category: 'Performance', name: 'Engine 4', price: 23000 },
-            { category: 'Performance', name: 'Engine 5', price: 24000 },
-            { category: 'Performance', name: 'Suspension 2', price: 21000 },
-            { category: 'Performance', name: 'Suspension 3', price: 22000 },
-            { category: 'Performance', name: 'Suspension 4', price: 23000 },
-            { category: 'Performance', name: 'Suspension 5', price: 24000 },
-            { category: 'Performance', name: 'Transmission 2', price: 21000 },
-            { category: 'Performance', name: 'Transmission 3', price: 22000},
-            { category: 'Performance', name: 'Transmission 4', price: 23000 },
-            { category: 'Performance', name: 'Brakes 2', price: 21000 },
-            { category: 'Performance', name: 'Brakes 3', price: 22000 },
-            { category: 'Performance', name: 'Brakes 4', price: 23000 },
-   // add cosmetics her
-            { category: 'Cosmetic', name: 'Respray Kit', price: 3000  },
-            { category: 'Cosmetic', name: 'Cosmetic Part', price: 4600 },
-            { category: 'Cosmetic', name: 'Tyre Smoke', price: 5500 },
-            { category: 'Cosmetic', name: 'Lighting Controller', price: 5000 },
-            { category: 'Cosmetic', name: 'Vehicle Wheels', price: 12000 },
-            { category: 'Cosmetic', name: 'Extras Kit', price: 3000 },
-            
-           //add any respray related here 
-            { category: 'Resprays', name: 'I4 Engine', price: 30000 },
-            { category: 'Resprays', name: 'V6 Engine', price: 45000 },
-            { category: 'Resprays', name: 'V8 Engine', price: 65000 },
-            { category: 'Resprays', name: 'V12 Engine', price: 100000 },
-            { category: 'Resprays', name: 'Turbocharger', price: 35000 },
-            { category: 'Resprays', name: 'AWD', price: 25000},
-            { category: 'Resprays', name: 'RWD', price: 25000 },
-            { category: 'Resprays', name: 'FWD', price: 25000 },
-            { category: 'Resprays', name: 'Ceramic Brakes', price: 25000 },
-            { category: 'Resprays', name: 'Stance Kit', price: 10000 },
-            { category: 'Resprays', name: 'Slick Tyres', price: 11340 },
-            { category: 'Resprays', name: 'Semi-Slick Tyres', price: 11200 },
-            { category: 'Resprays', name: 'Offroad Tyres', price: 11200 },
-            { category: 'Resprays', name: 'Drift  Tuning Kit', price: 0 },
-    
-        //add light related things here
-             { category: 'Lights', name: 'Full Service & Repair', price: 16000 },
-            { category: 'Lights', name: 'Full Service', price: 15000 },
-             { category: 'Lights', name: 'Repair', price: 2000 },
-            { category: 'Lights', name: 'Engine Oil', price: 900 },
-            { category: 'Lights', name: 'Tire Replacement', price: 2700 },
-            { category: 'Lights', name: 'Clutch Replacement', price: 1700 },
-            { category: 'Lights', name: 'Air Filter', price: 700 },
-            { category: 'Lights', name: 'Suspension Parts', price:6700 },
-            { category: 'Lights', name: 'Spark Plugs', price: 1400 },
-            { category: 'Lights', name: 'Brake Pad Replacement', price: 1000 },
-            
-       
-            
-        ];
-
-document.addEventListener('DOMContentLoaded', function () {
-    const performanceItems = document.getElementById('performanceItems');
-    const cosmeticItems = document.getElementById('cosmeticItems');
-    const resprayItems = document.getElementById('resprayItems');
-    const lightItems = document.getElementById('lightItems');
-
-    items.forEach(item => {
-        const button = document.createElement('button');
-        button.type = 'button';
-        button.textContent = item.name;
-        button.setAttribute('data-name', item.name);
-        button.setAttribute('data-price', item.price);
-        button.classList.add('item');
-        button.addEventListener('click', function () {
-            const itemName = this.getAttribute('data-name');
-            const itemPrice = parseInt(this.getAttribute('data-price'));
-
-            // Check if the item already exists in selectedItems
-            let existingItem = selectedItems.find(selectedItem => selectedItem.name === itemName);
-            
-            if (existingItem) {
-                // If the item exists, increment the quantity
-                existingItem.count += 1;
-            } else {
-                // If the item doesn't exist, add it with a count of 1
-                selectedItems.push({ name: itemName, price: itemPrice, count: 1 });
-            }
-
-            calculateTotal();
-        });
-
-        const row = document.createElement('tr');
-        const nameCell = document.createElement('td');
-        const priceCell = document.createElement('td');
-        nameCell.appendChild(button);
-        priceCell.textContent = '$' + item.price;
-        row.appendChild(nameCell);
-        row.appendChild(priceCell);
-
-        if (item.category === 'Performance') {
-            performanceItems.appendChild(row);
-        } else if (item.category === 'Cosmetic') {
-            cosmeticItems.appendChild(row);
-        } else if (item.category === 'Resprays') {
-            resprayItems.appendChild(row);
-        } else if (item.category === 'Lights') {
-            lightItems.appendChild(row);
-        }
-    });
-});
-
-// Event Delegation for collapsible elements
-document.body.addEventListener('click', function (event) {
-    if (event.target && event.target.classList.contains('collapsible')) {
-        event.target.classList.toggle('active');
-        const content = event.target.nextElementSibling;
-        content.style.display = content.style.display === 'block' ? 'none' : 'block';
-    }
-});
-
-const selectedItems = [];
-
-// Update the total calculation to account for the item count
-function calculateTotal() {
-    let total = selectedItems.reduce((sum, item) => sum + (item.price * item.count), 0);
-
-    // Apply a 35% discount if the mechanic discount is applied
-    if (isMechDiscountApplied) {
-        total *= 0.65; // 65% of the original price
-    }
-
-    const formattedTotal = total.toLocaleString();
-    const summary = document.getElementById('summary');
-    summary.innerHTML = '';
-
-    let upgrades = selectedItems.map(item => `${item.name} x ${item.count}`).join(', ');
-
-    const pRespraySelected = selectedItems.some(item => item.name === 'P Respray');
-    const sRespraySelected = selectedItems.some(item => item.name === 'S Respray');
-
-    if (pRespraySelected && sRespraySelected) {
-        upgrades = upgrades.replace('P Respray', 'P/S Respray');
-        upgrades = upgrades.replace(', S Respray', '');
-    }
-
-    const customerName = document.getElementById('customerName').value;
-    const mechname = document.getElementById('mechname').value;
-    const plateNumber = document.getElementById('plateNumber').value;
-    const vehicleModel = document.getElementById('vehicleModel').value;
-    const shopname = document.getElementById('shopname').value;
-
-    summary.innerHTML = `Customer Name: ${isMechDiscountApplied ? '[MECH] ' : ''}${customerName}<br>`;
-    if (mechname.trim() !== '') {
-        summary.innerHTML += `Mechanic Name: ${mechname}<br>`;
-    }
-    summary.innerHTML += `Vehicle | Make/Model: ${vehicleModel}<br>`;
-    summary.innerHTML += `Plate: ${plateNumber}<br>`;
-    summary.innerHTML += `Upgrades Purchased: ${upgrades}<br>`;
-    summary.innerHTML += `Shop Name: ${shopname}<br>`;
-    summary.innerHTML += `Price Charged: $${formattedTotal}<br>`;
-}
-
-
-function undoSelection() {
-    if (selectedItems.length > 0) {
-        selectedItems.pop();
-        calculateTotal();
-    }
-}
-
-function clearCustomerInfo() {
-    document.getElementById('customerName').value = '';
-    document.getElementById('mechname').value = '';
-    document.getElementById('plateNumber').value = '';
-    document.getElementById('vehicleModel').value = '';
-    document.getElementById('shopname').value = '';
-    calculateTotal();
-}
-
-function clearItems() {
-    selectedItems.length = 0;
-    calculateTotal();
-}
-
-        function searchItems() {
-            const searchInput = document.getElementById('search').value.toLowerCase();
-            const itemButtons = document.querySelectorAll('.item');
-            const performanceContent = document.getElementById('performanceItems');
-            const cosmeticContent = document.getElementById('cosmeticItems');
-            const resprayContent = document.getElementById('resprayItems');
-            
-            itemButtons.forEach(button => {
-                const itemName = button.getAttribute('data-name').toLowerCase();
-                const parentTr = button.closest('tr');
-
-                if (itemName.includes(searchInput)) {
-                    parentTr.style.display = 'table-row';
-                    if (parentTr.parentElement === performanceContent || parentTr.parentElement === cosmeticContent || parentTr.parentElement === resprayContent) {
-                        parentTr.parentElement.previousElementSibling.classList.add('active');
-                        parentTr.parentElement.style.display = 'block';
-                    }
-                } else {
-                    parentTr.style.display = 'none';
-                }
+        const start = () => {
+            gapi.client.init({
+                'apiKey': API_KEY,
+                'discoveryDocs': ["https://sheets.googleapis.com/$discovery/rest?version=v4"],
+            }).then(() => {
+                document.getElementById('submitBtn').onclick = logData;
+            }).catch((err) => {
+                console.error("Error loading GAPI client for API", err);
             });
-        }
-    </script>
+        };
 
-    <script>
-       
-    
+        const logData = () => {
+            const customerName = document.getElementById('customerName').value;
+            const mechname = document.getElementById('mechname').value || 'N/A';
+            const plateNumber = document.getElementById('plateNumber').value;
+            const vehicleModel = document.getElementById('vehicleModel').value;
+            const shopname = document.getElementById('shopname').value;
 
-       
-        function searchVehicles() {
-            const searchTerm = document.getElementById('search').value.toLowerCase();
-            const categories = document.querySelectorAll('.category');
+            const currentDate = new Date().toLocaleDateString();
 
-            categories.forEach(category => {
-                const items = category.querySelectorAll('li');
-                let hasMatch = false;
+            const values = [[
+                currentDate, mechname, customerName, vehicleModel, plateNumber, 'Work Done', 'Total', 'Discount'
+            ]];
 
-                items.forEach(item => {
-                    if (item.textContent.toLowerCase().includes(searchTerm)) {
-                        item.style.display = '';
-                        hasMatch = true;
-                    } else {
-                        item.style.display = 'none';
-                    }
-                });
+            const body = {
+                values: values
+            };
 
-                category.style.display = hasMatch ? '' : 'none';
+            gapi.client.sheets.spreadsheets.values.append({
+                spreadsheetId: SPREADSHEET_ID,
+                range: RANGE,
+                valueInputOption: 'RAW',
+                resource: body
+            }).then((response) => {
+                console.log(`${response.result.updates.updatedCells} cells updated.`);
+                alert('Data logged successfully!');
+            }, (error) => {
+                console.error('Error: ', error);
+                alert('Failed to log data.');
             });
-        }
-        
-        document.getElementById('mechDiscountToggle').addEventListener('click', () => {
-    isMechDiscountApplied = !isMechDiscountApplied;
+        };
 
-    // Update button text based on toggle state
-    const button = document.getElementById('mechDiscountToggle');
-    button.textContent = isMechDiscountApplied ? 'Remove [MECH] Discount' : 'Apply [MECH] Discount';
-
-    // Recalculate total price
-    calculateTotal();
-});
-
-        function toggleCategory(header) {
-            const category = header.parentElement;
-            const list = category.querySelector('ul');
-            list.style.display = list.style.display === 'none' || list.style.display === '' ? 'block' : 'none';
-        }
-
-        function switchTab(event, contentId) {
-            const tabs = document.querySelectorAll('nav a');
-            tabs.forEach(t => t.classList.remove('active'));
-            event.target.classList.add('active');
-
-            const contents = document.querySelectorAll('.content');
-            contents.forEach(content => content.style.display = 'none');
-            document.getElementById(contentId).style.display = 'block';
-        }
-
-        document.addEventListener('DOMContentLoaded', () => {
-            // Show "Engine Inventory" tab by default
-            document.getElementById('tab2').style.display = 'block';
-        });
-        const darkModeToggle = document.getElementById('darkModeToggle');
-
-darkModeToggle.addEventListener('click', () => {
-    document.body.classList.toggle('dark-mode');
-});
+        gapi.load('client', start);
     </script>
-   
-    <script>
-function sendGoogleSheetLog() {
-    const customerName = document.getElementById('customerName').value;
-    const mechname = document.getElementById('mechname').value || 'N/A'; // Default to 'N/A' if empty
-    const plateNumber = document.getElementById('plateNumber').value;
-    const vehicleModel = document.getElementById('vehicleModel').value;
-    const shopname = document.getElementById('shopname').value;
-
-    // Calculate the total price from the selected items
-    let total = selectedItems.reduce((sum, item) => sum + (item.price * item.count), 0);
-
-    // Apply a 15% discount if the mechanic discount is applied
-    const isMechDiscountApplied = isMechDiscountApplied; // Use the existing variable
-    if (isMechDiscountApplied) {
-        total *= 0.85; // 85% of the original price (15% discount)
-    }
-
-    // Format the total price with commas
-    const formattedTotal = total.toLocaleString();
-
-    // Handle selected items list with quantities
-    let selectedItemsList = selectedItems.map(item => `${item.name} x ${item.count}`).join(', ');
-
-    // Create the message for Google Sheets
-    const message = {
-        customerName: isMechDiscountApplied ? `[MECH] ${customerName}` : customerName,
-        vehicleModel: vehicleModel,
-        mechname: mechname,
-        plateNumber: plateNumber,
-        selectedItems: selectedItemsList,
-        formattedTotal: formattedTotal,
-        isMechDiscountApplied: isMechDiscountApplied // Include discount status
-    };
-
-    // Send the message to the Google Apps Script
-    fetch('https://script.google.com/macros/s/AKfycby8JXy5j4tKh3stkrnxYmGdIt37K83300o8r2o9NceFAvVrOJi-9FhiMp_FsMTVu9Vb/exec', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(message)
-    })
-    .then(response => {
-        if (response.ok) {
-            console.log('Log successfully sent to Google Sheets');
-        } else {
-            console.error('Failed to send log to Google Sheets');
-        }
-    })
-    .catch(error => {
-        console.error('Error sending log to Google Sheets:', error);
-    });
-}
-</script>
-
 </body>
 </html>
