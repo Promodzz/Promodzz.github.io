@@ -1,77 +1,94 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Google Sheets API Integration</title>
-    <script src="https://apis.google.com/js/api.js"></script>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 20px;
-        }
-        input, button {
-            margin: 5px;
-        }
-    </style>
-</head>
-<body>
-    <h1>Log Data to Google Sheets</h1>
-    <input type="text" id="customerName" placeholder="Customer Name" required>
-    <input type="text" id="mechname" placeholder="Mechanic Name">
-    <input type="text" id="plateNumber" placeholder="Plate Number" required>
-    <input type="text" id="vehicleModel" placeholder="Vehicle Model" required>
-    <input type="text" id="shopname" placeholder="Shop Name" required>
-    <button id="submitBtn">Submit</button>
+// GTA V Vehicle Upgrade Calculator with Discord Webhook
+import React, { useState } from 'react';
+import { Card, CardContent } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import axios from 'axios';
 
-    <script>
-        const API_KEY = 'AIzaSyAXUyFarNDwnAN13IT-nkfvYAmTjDlKB18'; // Replace with your API key
-        const SPREADSHEET_ID = '19AmCRTkpCYHlMnz4-x0yy5XMJfpygnKmGckK0PWHshk'; // Replace with your Spreadsheet ID
-        const RANGE = 'Sheet1!A:H'; // Adjust the range as needed
+const upgradeOptions = {
+  engine: ['Stock', 'EMS Upgrade Level 1', 'EMS Upgrade Level 2', 'EMS Upgrade Level 3'],
+  brakes: ['Stock', 'Street Brakes', 'Sport Brakes', 'Race Brakes'],
+  transmission: ['Stock', 'Street Transmission', 'Sports Transmission', 'Race Transmission'],
+  suspension: ['Stock', 'Lowered', 'Street', 'Sport', 'Competition'],
+  armor: ['None', 'Armor Upgrade 20%', '40%', '60%', '80%', '100%'],
+  turbo: ['None', 'Turbo Tuning']
+};
 
-        const start = () => {
-            gapi.client.init({
-                'apiKey': API_KEY,
-                'discoveryDocs': ["https://sheets.googleapis.com/$discovery/rest?version=v4"],
-            }).then(() => {
-                document.getElementById('submitBtn').onclick = logData;
-            }).catch((err) => {
-                console.error("Error loading GAPI client for API", err);
-            });
-        };
+const getUpgradeCost = (category, option) => {
+  const costs = {
+    engine: [0, 9000, 12500, 18000],
+    brakes: [0, 1000, 1500, 2000],
+    transmission: [0, 7000, 10000, 14000],
+    suspension: [0, 500, 1000, 1500, 2000],
+    armor: [0, 5000, 10000, 15000, 20000, 25000],
+    turbo: [0, 25000]
+  };
+  const index = upgradeOptions[category].indexOf(option);
+  return costs[category][index] || 0;
+};
 
-        const logData = () => {
-            const customerName = document.getElementById('customerName').value;
-            const mechname = document.getElementById('mechname').value || 'N/A';
-            const plateNumber = document.getElementById('plateNumber').value;
-            const vehicleModel = document.getElementById('vehicleModel').value;
-            const shopname = document.getElementById('shopname').value;
+export default function VehicleUpgradeCalculator() {
+  const [selections, setSelections] = useState({});
+  const [webhook, setWebhook] = useState('');
+  const [total, setTotal] = useState(0);
 
-            const currentDate = new Date().toLocaleDateString();
+  const handleChange = (category, value) => {
+    const updatedSelections = { ...selections, [category]: value };
+    setSelections(updatedSelections);
+    const newTotal = Object.entries(updatedSelections).reduce((acc, [cat, val]) => acc + getUpgradeCost(cat, val), 0);
+    setTotal(newTotal);
+  };
 
-            const values = [[
-                currentDate, mechname, customerName, vehicleModel, plateNumber, 'Work Done', 'Total', 'Discount'
-            ]];
+  const sendToDiscord = async () => {
+    if (!webhook) return;
+    const content = `**GTA V Vehicle Upgrade Summary**\n\n${Object.entries(selections)
+      .map(([key, value]) => `**${key.charAt(0).toUpperCase() + key.slice(1)}:** ${value}`)
+      .join('\n')}\n\n**Total Cost:** $${total}`;
 
-            const body = {
-                values: values
-            };
+    try {
+      await axios.post(webhook, {
+        content
+      });
+      alert('Sent to Discord!');
+    } catch (error) {
+      alert('Failed to send to Discord.');
+    }
+  };
 
-            gapi.client.sheets.spreadsheets.values.append({
-                spreadsheetId: SPREADSHEET_ID,
-                range: RANGE,
-                valueInputOption: 'RAW',
-                resource: body
-            }).then((response) => {
-                console.log(`${response.result.updates.updatedCells} cells updated.`);
-                alert('Data logged successfully!');
-            }, (error) => {
-                console.error('Error: ', error);
-                alert('Failed to log data.');
-            });
-        };
-
-        gapi.load('client', start);
-    </script>
-</body>
-</html>
+  return (
+    <div className="p-4 grid gap-4 max-w-xl mx-auto">
+      <h1 className="text-2xl font-bold">GTA V Vehicle Upgrade Calculator</h1>
+      {Object.entries(upgradeOptions).map(([category, options]) => (
+        <Card key={category}>
+          <CardContent className="p-4">
+            <Label className="block mb-2 capitalize">{category}</Label>
+            <select
+              className="w-full p-2 rounded border"
+              onChange={(e) => handleChange(category, e.target.value)}
+              value={selections[category] || ''}
+            >
+              <option value="" disabled>Select {category}</option>
+              {options.map((option) => (
+                <option key={option} value={option}>{option}</option>
+              ))}
+            </select>
+          </CardContent>
+        </Card>
+      ))}
+      <Card>
+        <CardContent className="p-4">
+          <Label htmlFor="webhook">Discord Webhook URL</Label>
+          <Input
+            id="webhook"
+            value={webhook}
+            onChange={(e) => setWebhook(e.target.value)}
+            placeholder="https://discord.com/api/webhooks/..."
+          />
+        </CardContent>
+      </Card>
+      <div className="text-lg font-semibold">Total: ${total}</div>
+      <Button onClick={sendToDiscord}>Send to Discord</Button>
+    </div>
+  );
+}
